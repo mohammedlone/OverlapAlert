@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Overlap Alert - Stop Buying AI Tools You Already Own</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .hero {
+            padding: 120px 0 80px;
+            text-align: center;
+            color: white;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+        }
+        
+        .hero .subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .pain-point {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+            border-left: 4px solid #ffd700;
+        }
+        
+        .cta-section {
+            background: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+        
+        .email-form {
+            max-width: 500px;
+            margin: 2rem auto;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .email-input {
+            flex: 1;
+            min-width: 250px;
+            padding: 1rem;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        
+        .cta-button {
+            background: #667eea;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .cta-button:hover {
+            background: #5a6fd8;
+        }
+        
+        .features {
+            padding: 5rem 0;
+            background: #f8f9fa;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .problem-section {
+            background: #2c3e50;
+            color: white;
+            padding: 5rem 0;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #ffd700;
+        }
+        
+        .examples {
+            background: white;
+            padding: 5rem 0;
+        }
+        
+        .example-scenario {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+            border-left: 4px solid #667eea;
+        }
+        
+        .pricing {
+            background: #667eea;
+            color: white;
+            padding: 5rem 0;
+            text-align: center;
+        }
+        
+        .price-card {
+            background: white;
+            color: #333;
+            padding: 2rem;
+            border-radius: 12px;
+            max-width: 400px;
+            margin: 2rem auto;
+        }
+        
+        .price {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        footer {
+            background: #2c3e50;
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .email-form {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .email-input {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">🛡️ Overlap Alert</div>
+            <div>
+                <button class="cta-button" onclick="scrollToForm()">Get Early Access</button>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Stop Buying AI Tools You Already Own</h1>
+            <p class="subtitle">The browser extension that prevents duplicate subscriptions and wasted money</p>
+            
+            <div class="pain-point">
+                <strong>"You're browsing Jasper, but you already pay for Copy.ai ($36/month)"</strong><br>
+                Save money. Stop overlap. Use what you already have.
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section" id="signup">
+        <div class="container">
+            <h2>Join 1,000+ smart tool users on the waitlist</h2>
+            <form class="email-form" action="#" method="POST">
+                <input type="email" class="email-input" placeholder="Enter your email" required>
+                <button type="submit" class="cta-button">Get Early Access</button>
+            </form>
+            <p><small>🚀 Launching in 4 weeks | 💰 Early users get 50% off forever</small></p>
+        </div>
+    </section>
+
+    <section class="problem-section">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 2rem;">The Hidden Subscription Problem</h2>
+            
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number">40%</div>
+                    <p>People underestimate their total subscriptions</p>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">$847</div>
+                    <p>Average annual spending on AI tools</p>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">67%</div>
+                    <p>Have duplicate functionality across tools</p>
+                </div>
+            </div>
+            
+            <p style="text-align: center; font-size: 1.2rem; margin-top: 2rem;">
+                With 100+ new AI tools launching monthly, it's impossible to remember what you already have.
+            </p>
+        </div>
+    </section>
+
+    <section class="examples">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 3rem;">Real Scenarios Overlap Alert Prevents</h2>
+            
+            <div class="example-scenario">
+                <h3>🎥 Scenario 1: YouTube Research</h3>
+                <p><strong>You're watching:</strong> "Best AI Writing Tools 2025"</p>
+                <p><strong>Overlap Alert alerts:</strong> "You already have ChatGPT Plus and Copy.ai - here's what's actually different about the tools in this video."</p>
+                <p><strong>Result:</strong> Saved $156/month on redundant subscriptions</p>
+            </div>
+            
+            <div class="example-scenario">
+                <h3>🎯 Scenario 2: Ad Temptation</h3>
+                <p><strong>You're browsing:</strong> Jasper landing page after seeing LinkedIn ad</p>
+                <p><strong>Overlap Alert alerts:</strong> "Copy.ai does 80% of this for $15 less per month. You've only used it twice this month - maximize what you have first."</p>
+                <p><strong>Result:</strong> Saved $39/month + actually used existing tool</p>
+            </div>
+            
+            <div class="example-scenario">
+                <h3>🔍 Scenario 3: Feature Overlap</h3>
+                <p><strong>You're considering:</strong> Notion AI upgrade</p>
+                <p><strong>Overlap Alert alerts:</strong> "Your ChatGPT Plus can do this specific task. Here's how..." (with tutorial link)</p>
+                <p><strong>Result:</strong> Saved $120/year + learned new ChatGPT features</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 3rem;">How Overlap Alert Works</h2>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🧠</div>
+                    <h3>Smart Detection</h3>
+                    <p>Instantly recognizes when you're browsing tools similar to ones you already own</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Real-Time Alerts</h3>
+                    <p>Popup warnings when you're about to sign up for duplicate functionality</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">💡</div>
+                    <h3>Usage Insights</h3>
+                    <p>"You haven't used Canva Pro in 3 months - cancel it and save $180/year"</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🔐</div>
+                    <h3>Privacy First</h3>
+                    <p>All data stays on your device. No cloud storage, no data sharing.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>AI Tool Focused</h3>
+                    <p>Specialized database of 200+ AI tools with overlap analysis</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Savings Tracker</h3>
+                    <p>See exactly how much money you've saved from prevented purchases</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pricing">
+        <div class="container">
+            <h2>Early Bird Pricing</h2>
+            <div class="price-card">
+                <h3>Overlap Alert Pro</h3>
+                <div class="price">$4.99<span style="font-size: 1rem;">/month</span></div>
+                <ul style="text-align: left; margin: 2rem 0;">
+                    <li>✅ Unlimited tool tracking</li>
+                    <li>✅ Real-time duplicate alerts</li>
+                    <li>✅ Usage insights & recommendations</li>
+                    <li>✅ Savings tracking dashboard</li>
+                    <li>✅ Priority support</li>
+                </ul>
+                <p><strong>Early users get 50% off forever</strong><br>
+                <small>That's $2.50/month - pays for itself with one prevented duplicate</small></p>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to Stop Wasting Money on Duplicate Tools?</h2>
+            <p style="margin: 1rem 0;">Join the waitlist and be first to save money when we launch</p>
+            
+            <form class="email-form" action="#" method="POST">
+                <input type="email" class="email-input" placeholder="Enter your email" required>
+                <button type="submit" class="cta-button">Get Early Access</button>
+            </form>
+            
+            <p style="margin-top: 2rem;"><small>
+                🎯 Launching in 4 weeks<br>
+                💰 Early users get lifetime 50% discount<br>
+                🛡️ No spam, just launch updates
+            </small></p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Overlap Alert. Stop buying what you already own.</p>
+            <p style="margin-top: 1rem;"><small>Made for the AI tool explosion era</small></p>
+        </div>
+    </footer>
+
+    <script>
+        function scrollToForm() {
+            document.getElementById('signup').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Simple form handling (you'll replace this with real email service)
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = this.querySelector('input[type="email"]').value;
+                alert(`Thanks! We'll notify ${email} when Overlap Alert launches. Check your email for confirmation.`);
+                // TODO: Connect to real email service
+            });
+        });
+    </script>
+</body>
+</html>
