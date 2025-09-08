@@ -5,33 +5,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OverlapAlert - Stop Buying AI Tools You Already Own</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
         
+        :root {
+            --primary-black: #000000;
+            --dark-charcoal: #1a1a1a;
+            --medium-gray: #404040;
+            --light-gray: #808080;
+            --lighter-gray: #d4d4d4;
+            --off-white: #f8f8f8;
+            --pure-white: #ffffff;
+            --brand-blue: #2563eb;
+            --brand-red: #dc2626;
+            --accent-gradient: linear-gradient(135deg, #2563eb, #dc2626);
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --dark-glass-bg: rgba(0, 0, 0, 0.05);
+            --dark-glass-border: rgba(0, 0, 0, 0.1);
+        }
+        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--pure-white);
+            background: linear-gradient(135deg, var(--primary-black) 0%, var(--dark-charcoal) 100%);
+            min-height: 100vh;
         }
         
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 24px;
         }
         
+        /* Glass morphism header */
         header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
             position: fixed;
             width: 100%;
             top: 0;
             z-index: 1000;
-            padding: 1rem 0;
+            padding: 16px 0;
+            transition: all 0.3s ease;
         }
         
         nav {
@@ -41,196 +64,446 @@
         }
         
         .logo {
-            font-size: 2rem;
-            font-weight: 900;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            letter-spacing: -0.5px;
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -1px;
         }
         
         .brand-overlap {
-            color: #2563eb;
+            color: var(--brand-blue);
             font-weight: 900;
         }
         
         .brand-alert {
-            color: #dc2626;
+            color: var(--brand-red);
             font-weight: 900;
         }
         
-        .brand-name {
-            font-size: 1.1em;
-        }
-        
-        .hero {
-            padding: 120px 0 80px;
-            text-align: center;
-            color: white;
-        }
-        
-        .hero h1 {
-            font-size: 3.5rem;
-            font-weight: bold;
-            margin-bottom: 1rem;
-            line-height: 1.1;
-        }
-        
-        .hero .subtitle {
-            font-size: 1.3rem;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-        }
-        
-        .pain-point {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 1.5rem;
-            border-radius: 10px;
-            margin: 2rem 0;
-            border-left: 4px solid #ffd700;
-        }
-        
-        .cta-section {
-            background: white;
-            padding: 4rem 0;
-            text-align: center;
-        }
-        
-        .email-form {
-            max-width: 500px;
-            margin: 2rem auto;
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        
-        .email-input {
-            flex: 1;
-            min-width: 250px;
-            padding: 1rem;
-            border: 2px solid #e1e5e9;
-            border-radius: 8px;
-            font-size: 1rem;
-        }
-        
         .cta-button {
-            background: #667eea;
-            color: white;
-            padding: 1rem 2rem;
+            background: var(--pure-white);
+            color: var(--primary-black);
+            padding: 12px 24px;
             border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: bold;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
         }
         
         .cta-button:hover {
-            background: #5a6fd8;
+            background: var(--off-white);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
         }
         
-        .features {
-            padding: 5rem 0;
-            background: #f8f9fa;
-        }
-        
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-        
-        .feature-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        /* Modern hero section */
+        .hero {
+            padding: 140px 0 100px;
             text-align: center;
+            color: var(--pure-white);
+            position: relative;
+            overflow: hidden;
         }
         
-        .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
         }
         
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero h1 {
+            font-size: 64px;
+            font-weight: 800;
+            margin-bottom: 24px;
+            line-height: 1.1;
+            letter-spacing: -2px;
+        }
+        
+        .hero .subtitle {
+            font-size: 22px;
+            margin-bottom: 40px;
+            opacity: 0.9;
+            font-weight: 400;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .pain-point {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            padding: 32px;
+            border-radius: 20px;
+            margin: 48px auto;
+            max-width: 700px;
+            font-size: 18px;
+            font-weight: 500;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Glass morphism CTA section */
+        .cta-section {
+            background: var(--pure-white);
+            border: 1px solid var(--lighter-gray);
+            margin: 60px auto;
+            border-radius: 24px;
+            padding: 60px 40px;
+            text-align: center;
+            max-width: 800px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+        }
+        
+        .cta-section h2 {
+            color: var(--primary-black);
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        
+        .kit-form {
+            margin: 32px 0;
+        }
+        
+        /* Modern stats section */
         .problem-section {
-            background: #2c3e50;
-            color: white;
-            padding: 5rem 0;
+            background: var(--pure-white);
+            color: var(--primary-black);
+            padding: 100px 0;
+            position: relative;
+        }
+        
+        .problem-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 70%, rgba(37, 99, 235, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 30%, rgba(220, 38, 38, 0.05) 0%, transparent 50%);
+        }
+        
+        .problem-content {
+            position: relative;
+            z-index: 2;
         }
         
         .stats {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin: 60px 0;
         }
         
         .stat {
             text-align: center;
+            padding: 40px 20px;
+            background: var(--pure-white);
+            border: 2px solid var(--lighter-gray);
+            border-radius: 20px;
+            transition: transform 0.3s ease;
+        }
+        
+        .stat:hover {
+            transform: translateY(-8px);
+            border-color: var(--medium-gray);
         }
         
         .stat-number {
-            font-size: 3rem;
-            font-weight: bold;
-            color: #ffd700;
+            font-size: 56px;
+            font-weight: 800;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 16px;
         }
         
+        .stat p {
+            font-size: 16px;
+            color: var(--medium-gray);
+        }
+        
+        /* Modern examples section */
         .examples {
-            background: white;
-            padding: 5rem 0;
+            background: var(--off-white);
+            padding: 100px 0;
+        }
+        
+        .examples h2 {
+            text-align: center;
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 60px;
+            color: var(--primary-black);
         }
         
         .example-scenario {
-            background: #f8f9fa;
-            padding: 2rem;
-            border-radius: 10px;
-            margin: 2rem 0;
-            border-left: 4px solid #667eea;
+            background: var(--pure-white);
+            padding: 40px;
+            border-radius: 20px;
+            margin: 32px 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border-left: 4px solid var(--primary-black);
+            transition: all 0.3s ease;
         }
         
-        .pricing {
-            background: #667eea;
-            color: white;
-            padding: 5rem 0;
+        .example-scenario:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+        }
+        
+        .example-scenario h3 {
+            color: var(--primary-black);
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        
+        .example-scenario p {
+            font-size: 16px;
+            margin-bottom: 12px;
+            line-height: 1.6;
+            color: var(--medium-gray);
+        }
+        
+        /* Modern features section */
+        .features {
+            padding: 100px 0;
+            background: var(--pure-white);
+        }
+        
+        .features h2 {
             text-align: center;
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 60px;
+            color: var(--primary-black);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 32px;
+            margin-top: 60px;
+        }
+        
+        .feature-card {
+            background: var(--pure-white);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            border: 2px solid var(--lighter-gray);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.02), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .feature-card:hover::before {
+            left: 100%;
+        }
+        
+        .feature-card:hover {
+            border-color: var(--primary-black);
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .feature-card h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--primary-black);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .feature-card p {
+            color: var(--medium-gray);
+            line-height: 1.6;
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* Modern pricing section */
+        .pricing {
+            background: var(--primary-black);
+            color: var(--pure-white);
+            padding: 100px 0;
+            text-align: center;
+            position: relative;
+        }
+        
+        .pricing h2 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 60px;
         }
         
         .price-card {
-            background: white;
-            color: #333;
-            padding: 2rem;
-            border-radius: 12px;
-            max-width: 400px;
-            margin: 2rem auto;
+            background: var(--pure-white);
+            color: var(--primary-black);
+            padding: 60px 40px;
+            border-radius: 24px;
+            max-width: 500px;
+            margin: 0 auto;
+            box-shadow: 0 20px 60px rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .price-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--accent-gradient);
+        }
+        
+        .price-card h3 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 32px;
         }
         
         .price {
-            font-size: 3rem;
-            font-weight: bold;
-            color: #667eea;
+            font-size: 64px;
+            font-weight: 800;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 32px;
         }
         
+        .price-card ul {
+            text-align: left;
+            margin: 32px 0;
+            list-style: none;
+        }
+        
+        .price-card li {
+            padding: 8px 0;
+            font-size: 16px;
+            position: relative;
+            padding-left: 32px;
+        }
+        
+        .price-card li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--brand-blue);
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        /* Modern footer */
         footer {
-            background: #2c3e50;
-            color: white;
-            padding: 3rem 0;
+            background: var(--primary-black);
+            color: var(--pure-white);
+            padding: 60px 0 40px;
             text-align: center;
         }
         
+        footer p {
+            font-size: 16px;
+            opacity: 0.8;
+        }
+        
+        /* Responsive design */
         @media (max-width: 768px) {
             .hero h1 {
-                font-size: 2.5rem;
+                font-size: 42px;
             }
             
-            .email-form {
-                flex-direction: column;
-                align-items: center;
+            .hero .subtitle {
+                font-size: 18px;
             }
             
-            .email-input {
-                min-width: 100%;
+            .container {
+                padding: 0 16px;
             }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .cta-section {
+                margin: 40px 16px;
+                padding: 40px 24px;
+            }
+        }
+        
+        /* Smooth animations */
+        * {
+            scroll-behavior: smooth;
+        }
+        
+        .hero-content {
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--lighter-gray);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-gradient);
+            border-radius: 4px;
         }
     </style>
 </head>
@@ -246,12 +519,14 @@
 
     <section class="hero">
         <div class="container">
-            <h1>Stop Buying AI Tools You Already Own</h1>
-            <p class="subtitle">The browser extension that prevents duplicate subscriptions and wasted money</p>
-            
-            <div class="pain-point">
-                <strong>"You're browsing Jasper, but you already pay for Copy.ai ($36/month)"</strong><br>
-                Save money. Stop overlap. Use what you already have.
+            <div class="hero-content">
+                <h1>Stop Buying AI Tools You Already Own</h1>
+                <p class="subtitle">The intelligent browser extension that prevents duplicate subscriptions and eliminates wasted spending</p>
+                
+                <div class="pain-point">
+                    <strong>"You're browsing Jasper, but you already pay for Copy.ai ($36/month)"</strong><br>
+                    Save money. Stop overlap. Use what you already have.
+                </div>
             </div>
         </div>
     </section>
@@ -259,39 +534,43 @@
     <section class="cta-section" id="signup">
         <div class="container">
             <h2>Join 1,000+ smart tool users on the waitlist</h2>
-            <script async data-uid="855e4dba03" src="https://overlapalert.kit.com/855e4dba03/index.js"></script>
+            <div class="kit-form">
+                <script async data-uid="855e4dba03" src="https://overlapalert.kit.com/855e4dba03/index.js"></script>
+            </div>
             <p><small>🚀 Launching in 4 weeks | 💰 Early users get 50% off forever</small></p>
         </div>
     </section>
 
     <section class="problem-section">
         <div class="container">
-            <h2 style="text-align: center; margin-bottom: 2rem;">The Hidden Subscription Problem</h2>
-            
-            <div class="stats">
-                <div class="stat">
-                    <div class="stat-number">40%</div>
-                    <p>People underestimate their total subscriptions</p>
+            <div class="problem-content">
+                <h2 style="text-align: center; font-size: 48px; font-weight: 700; margin-bottom: 32px;">The Hidden Subscription Problem</h2>
+                
+                <div class="stats">
+                    <div class="stat">
+                        <div class="stat-number">40%</div>
+                        <p>People underestimate their total subscriptions</p>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">$847</div>
+                        <p>Average annual spending on AI tools</p>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">67%</div>
+                        <p>Have duplicate functionality across tools</p>
+                    </div>
                 </div>
-                <div class="stat">
-                    <div class="stat-number">$847</div>
-                    <p>Average annual spending on AI tools</p>
-                </div>
-                <div class="stat">
-                    <div class="stat-number">67%</div>
-                    <p>Have duplicate functionality across tools</p>
-                </div>
+                
+                <p style="text-align: center; font-size: 20px; margin-top: 40px; opacity: 0.9;">
+                    With 100+ new AI tools launching monthly, it's impossible to remember what you already have.
+                </p>
             </div>
-            
-            <p style="text-align: center; font-size: 1.2rem; margin-top: 2rem;">
-                With 100+ new AI tools launching monthly, it's impossible to remember what you already have.
-            </p>
         </div>
     </section>
 
     <section class="examples">
         <div class="container">
-            <h2 style="text-align: center; margin-bottom: 3rem;">Real Scenarios <span class="brand-overlap">Overlap</span><span class="brand-alert">Alert</span> Prevents</h2>
+            <h2>Real Scenarios <span class="brand-overlap">Overlap</span><span class="brand-alert">Alert</span> Prevents</h2>
             
             <div class="example-scenario">
                 <h3>🎥 Scenario 1: YouTube Research</h3>
@@ -318,7 +597,7 @@
 
     <section class="features">
         <div class="container">
-            <h2 style="text-align: center; margin-bottom: 3rem;">How <span class="brand-overlap">Overlap</span><span class="brand-alert">Alert</span> Works</h2>
+            <h2>How <span class="brand-overlap">Overlap</span><span class="brand-alert">Alert</span> Works</h2>
             
             <div class="features-grid">
                 <div class="feature-card">
@@ -365,16 +644,16 @@
             <h2>Early Bird Pricing</h2>
             <div class="price-card">
                 <h3><span class="brand-overlap">Overlap</span><span class="brand-alert">Alert</span> Pro</h3>
-                <div class="price">$4.99<span style="font-size: 1rem;">/month</span></div>
-                <ul style="text-align: left; margin: 2rem 0;">
-                    <li>✅ Unlimited tool tracking</li>
-                    <li>✅ Real-time duplicate alerts</li>
-                    <li>✅ Usage insights & recommendations</li>
-                    <li>✅ Savings tracking dashboard</li>
-                    <li>✅ Priority support</li>
+                <div class="price">$4.99<span style="font-size: 24px; font-weight: 400;">/month</span></div>
+                <ul>
+                    <li>Unlimited tool tracking</li>
+                    <li>Real-time duplicate alerts</li>
+                    <li>Usage insights & recommendations</li>
+                    <li>Savings tracking dashboard</li>
+                    <li>Priority support</li>
                 </ul>
-                <p><strong>Early users get 50% off forever</strong><br>
-                <small>That's $2.50/month - pays for itself with one prevented duplicate</small></p>
+                <p style="margin-top: 32px;"><strong>Early users get 50% off forever</strong><br>
+                <small style="opacity: 0.7;">That's $2.50/month - pays for itself with one prevented duplicate</small></p>
             </div>
         </div>
     </section>
@@ -382,11 +661,13 @@
     <section class="cta-section">
         <div class="container">
             <h2>Ready to Stop Wasting Money on Duplicate Tools?</h2>
-            <p style="margin: 1rem 0;">Join the waitlist and be first to save money when we launch</p>
+            <p style="margin: 16px 0; font-size: 18px; color: var(--medium-gray);">Join the waitlist and be first to save money when we launch</p>
             
-            <script async data-uid="855e4dba03" src="https://overlapalert.kit.com/855e4dba03/index.js"></script>
+            <div class="kit-form">
+                <script async data-uid="855e4dba03" src="https://overlapalert.kit.com/855e4dba03/index.js"></script>
+            </div>
             
-            <p style="margin-top: 2rem;"><small>
+            <p style="margin-top: 32px;"><small style="color: var(--medium-gray);">
                 🎯 Launching in 4 weeks<br>
                 💰 Early users get lifetime 50% discount<br>
                 🛡️ No spam, just launch updates
@@ -397,7 +678,7 @@
     <footer>
         <div class="container">
             <p>&copy; 2025 <span class="brand-overlap">Overlap</span><span class="brand-alert">Alert</span>. Stop buying what you already own.</p>
-            <p style="margin-top: 1rem;"><small>Made for the AI tool explosion era</small></p>
+            <p style="margin-top: 16px; font-size: 14px;">Made for the AI tool explosion era</p>
         </div>
     </footer>
 
@@ -405,9 +686,16 @@
         function scrollToForm() {
             document.getElementById('signup').scrollIntoView({ behavior: 'smooth' });
         }
-
-        // Simple form handling - now using ConvertKit
-        // Forms are handled by ConvertKit embed code
+        
+        // Add scroll effect to header
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(0, 0, 0, 0.95)';
+            } else {
+                header.style.background = 'rgba(255, 255, 255, 0.05)';
+            }
+        });
     </script>
 </body>
 </html>
