@@ -873,12 +873,42 @@
             });
         }
         
-        // Run branding removal when page loads and periodically
+        // Run branding removal immediately and frequently
         document.addEventListener('DOMContentLoaded', removeConvertKitBranding);
         window.addEventListener('load', removeConvertKitBranding);
         
-        // Run every 2 seconds to catch dynamically loaded content
-        setInterval(removeConvertKitBranding, 2000);
+        // Run every 500ms to catch dynamically loaded content
+        setInterval(removeConvertKitBranding, 500);
+        
+        // NUCLEAR: Watch for DOM changes and remove elements immediately
+        if (window.MutationObserver) {
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.addedNodes.length > 0) {
+                        // Run removal immediately when new elements are added
+                        setTimeout(removeConvertKitBranding, 10);
+                    }
+                });
+            });
+            
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+        }
+        
+        // Run removal when scripts load (ConvertKit loads via script)
+        window.addEventListener('beforeunload', removeConvertKitBranding);
+        
+        // Final nuclear option: run removal every 100ms for first 30 seconds
+        let nukeCounter = 0;
+        const nukeInterval = setInterval(() => {
+            removeConvertKitBranding();
+            nukeCounter++;
+            if (nukeCounter >= 300) { // Stop after 30 seconds
+                clearInterval(nukeInterval);
+            }
+        }, 100);
     </script>
 </body>
 </html>
