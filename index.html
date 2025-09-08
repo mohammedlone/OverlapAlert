@@ -831,6 +831,54 @@
                 header.style.background = 'rgba(255, 255, 255, 0.05)';
             }
         });
+        
+        // AGGRESSIVE CONVERTKIT BRANDING REMOVAL
+        function removeConvertKitBranding() {
+            // Remove any elements containing "ConvertKit", "Powered by", or verification text
+            const elementsToRemove = document.querySelectorAll('*');
+            elementsToRemove.forEach(element => {
+                const text = element.textContent || element.innerText || '';
+                if (text.toLowerCase().includes('convertkit') || 
+                    text.toLowerCase().includes('powered by') ||
+                    text.toLowerCase().includes('verification') ||
+                    element.href && element.href.includes('convertkit.com')) {
+                    element.style.display = 'none !important';
+                    element.style.visibility = 'hidden !important';
+                    element.style.opacity = '0 !important';
+                    element.style.height = '0 !important';
+                    element.style.position = 'absolute !important';
+                    element.style.left = '-9999px !important';
+                }
+            });
+            
+            // Remove specific ConvertKit elements that might appear
+            const selectors = [
+                '[class*="formkit-powered"]',
+                '[class*="formkit-disclaimer"]',
+                '[class*="formkit-branding"]',
+                '[class*="convertkit"]',
+                '[data-element="disclaimer"]',
+                '[data-element="powered"]',
+                '[data-element="branding"]',
+                'a[href*="convertkit.com"]'
+            ];
+            
+            selectors.forEach(selector => {
+                const elements = document.querySelectorAll(selector);
+                elements.forEach(element => {
+                    if (!element.hasAttribute('data-element') || element.getAttribute('data-element') !== 'submit') {
+                        element.remove();
+                    }
+                });
+            });
+        }
+        
+        // Run branding removal when page loads and periodically
+        document.addEventListener('DOMContentLoaded', removeConvertKitBranding);
+        window.addEventListener('load', removeConvertKitBranding);
+        
+        // Run every 2 seconds to catch dynamically loaded content
+        setInterval(removeConvertKitBranding, 2000);
     </script>
 </body>
 </html>
