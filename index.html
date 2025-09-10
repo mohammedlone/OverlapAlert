@@ -223,21 +223,43 @@
             border-color: transparent !important;
         }
         
-        /* HIDE UGLY CONVERTKIT ELEMENTS */
-        .kit-form .formkit-powered-by,
-        .kit-form .formkit-guarantee,
-        .kit-form .formkit-fields + div,
-        .kit-form [data-element="guarantee"],
-        .kit-form [href*="convertkit.com"],
-        .formkit-powered-by,
-        .formkit-guarantee,
-        [data-element="guarantee"],
-        a[href*="convertkit.com"]:not([data-element="submit"]) {
+        /* NUCLEAR OPTION - HIDE ALL SMALL ELEMENTS AFTER SUBMIT BUTTONS */
+        .kit-form button[type="submit"] ~ *,
+        .kit-form [data-element="submit"] ~ *,
+        .formkit-form button[type="submit"] ~ *,
+        .formkit-form [data-element="submit"] ~ *,
+        .kit-form button[type="submit"] + *,
+        .kit-form [data-element="submit"] + *,
+        .formkit-form button[type="submit"] + *,
+        .formkit-form [data-element="submit"] + *,
+        /* Target any divs/spans that appear after forms */
+        .kit-form > div:last-child,
+        .formkit-form > div:last-child,
+        .kit-form > span:last-child,
+        .formkit-form > span:last-child,
+        /* Target small elements with emojis */
+        *:contains("🚀"),
+        *:contains("💰"),
+        /* Target any small elements in kit-form area */
+        .kit-form div[style*="font-size"],
+        .kit-form span[style*="font-size"],
+        .formkit-form div[style*="font-size"],
+        .formkit-form span[style*="font-size"],
+        /* Target positioned elements (ConvertKit often uses absolute positioning) */
+        .kit-form div[style*="position"],
+        .kit-form span[style*="position"],
+        .formkit-form div[style*="position"],
+        .formkit-form span[style*="position"] {
             display: none !important;
             visibility: hidden !important;
             opacity: 0 !important;
             height: 0 !important;
+            width: 0 !important;
             overflow: hidden !important;
+            position: absolute !important;
+            left: -9999px !important;
+            top: -9999px !important;
+            z-index: -1 !important;
         }
         
         /* SUPER AGGRESSIVE HOVER STYLING */
@@ -652,7 +674,7 @@
                 <script async data-uid="855e4dba03" src="https://overlapalert.kit.com/855e4dba03/index.js"></script>
                 
                 <!-- Backup form in case ConvertKit doesn't load -->
-                <div id="backup-form-2" style="display: none;">
+                <div id="backup-form" style="display: none;">
                     <form action="https://app.convertkit.com/forms/7752095/subscriptions" method="post" style="display: flex; flex-direction: column; align-items: center; gap: 16px;">
                         <input type="email" name="email_address" placeholder="Enter your email" required 
                                style="background: #ffffff !important; color: #000000 !important; border: 2px solid #d4d4d4 !important; border-radius: 12px !important; padding: 16px 20px !important; font-size: 16px !important; width: 100%; max-width: 400px;">
@@ -667,7 +689,7 @@
                     // Show backup form if ConvertKit doesn't load within 3 seconds
                     setTimeout(function() {
                         if (!document.querySelector('.formkit-form')) {
-                            document.getElementById('backup-form-2').style.display = 'block';
+                            document.getElementById('backup-form').style.display = 'block';
                         }
                     }, 3000);
                 </script>
@@ -832,44 +854,93 @@
             }
         });
         
-        // AGGRESSIVE CONVERTKIT BRANDING REMOVAL
+        // NUCLEAR CONVERTKIT BRANDING REMOVAL
         function removeConvertKitBranding() {
-            // Remove any elements containing "ConvertKit", "Powered by", or verification text
-            const elementsToRemove = document.querySelectorAll('*');
-            elementsToRemove.forEach(element => {
+            // Remove any elements containing ConvertKit branding (but NOT our own content)
+            const allElements = document.querySelectorAll('*');
+            allElements.forEach(element => {
                 const text = element.textContent || element.innerText || '';
+                
+                // Skip our own content (longer marketing text)
+                if (element.closest('.cta-section p') || 
+                    text.includes('Launching in 4 weeks') ||
+                    text.includes('Early users get 50% off forever') ||
+                    text.length > 100) {
+                    return;
+                }
+                
+                // Target ConvertKit branding and short emoji text
                 if (text.toLowerCase().includes('convertkit') || 
                     text.toLowerCase().includes('powered by') ||
                     text.toLowerCase().includes('verification') ||
-                    element.href && element.href.includes('convertkit.com')) {
-                    element.style.display = 'none !important';
-                    element.style.visibility = 'hidden !important';
-                    element.style.opacity = '0 !important';
-                    element.style.height = '0 !important';
-                    element.style.position = 'absolute !important';
-                    element.style.left = '-9999px !important';
+                    text.includes('🚀') ||
+                    text.includes('💰') ||
+                    (element.href && element.href.includes('convertkit.com'))) {
+                    element.style.cssText = 'display: none !important; visibility: hidden !important; opacity: 0 !important; height: 0 !important; width: 0 !important; position: absolute !important; left: -9999px !important; top: -9999px !important; z-index: -1 !important;';
+                    element.remove();
                 }
             });
             
-            // Remove specific ConvertKit elements that might appear
-            const selectors = [
-                '[class*="formkit-powered"]',
-                '[class*="formkit-disclaimer"]',
-                '[class*="formkit-branding"]',
+            // NUCLEAR: Remove ALL elements that appear after submit buttons
+            const submitButtons = document.querySelectorAll('.kit-form button[type="submit"], .kit-form [data-element="submit"], .formkit-form button, .formkit-form input[type="submit"]');
+            submitButtons.forEach(button => {
+                const formContainer = button.closest('.kit-form') || button.closest('.formkit-form');
+                if (formContainer) {
+                    // Remove any small sibling elements
+                    let nextElement = button.nextElementSibling;
+                    while (nextElement) {
+                        const siblingToRemove = nextElement;
+                        nextElement = nextElement.nextElementSibling;
+                        
+                        // Remove if it's small and likely a ConvertKit element
+                        if (siblingToRemove.offsetHeight < 100 && siblingToRemove.offsetWidth < 400) {
+                            siblingToRemove.remove();
+                        }
+                    }
+                    
+                    // Remove any elements that appear at the end of the form container
+                    const formChildren = Array.from(formContainer.children);
+                    formChildren.forEach((child, index) => {
+                        // Keep only email input and submit button
+                        if (child !== button && 
+                            !child.querySelector('input[type="email"]') && 
+                            !child.querySelector('button[type="submit"]') &&
+                            !child.querySelector('[data-element="submit"]') &&
+                            child.offsetHeight < 100) {
+                            child.remove();
+                        }
+                    });
+                }
+            });
+            
+            // Remove specific ConvertKit selectors
+            const selectorsToRemove = [
+                '[class*="formkit"]',
                 '[class*="convertkit"]',
-                '[data-element="disclaimer"]',
-                '[data-element="powered"]',
-                '[data-element="branding"]',
-                'a[href*="convertkit.com"]'
+                '[data-element*="guarantee"]',
+                '[data-element*="powered"]',
+                '[data-element*="disclaimer"]',
+                'a[href*="convertkit.com"]',
+                'div[style*="font-size: 11px"]',
+                'div[style*="font-size: 12px"]',
+                'span[style*="font-size: 11px"]',
+                'span[style*="font-size: 12px"]'
             ];
             
-            selectors.forEach(selector => {
-                const elements = document.querySelectorAll(selector);
-                elements.forEach(element => {
-                    if (!element.hasAttribute('data-element') || element.getAttribute('data-element') !== 'submit') {
-                        element.remove();
-                    }
-                });
+            selectorsToRemove.forEach(selector => {
+                try {
+                    const elements = document.querySelectorAll(selector);
+                    elements.forEach(element => {
+                        if (!element.closest('button[type="submit"]') && 
+                            !element.closest('input[type="email"]') &&
+                            !element.hasAttribute('data-element') ||
+                            element.getAttribute('data-element') !== 'submit') {
+                            element.remove();
+                        }
+                    });
+                } catch(e) {
+                    // Ignore selector errors
+                }
             });
         }
         
