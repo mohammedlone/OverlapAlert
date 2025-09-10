@@ -173,6 +173,17 @@
             margin-bottom: 16px;
         }
         
+        /* Fix for marketing text visibility */
+        .cta-section p,
+        .cta-section small {
+            color: var(--medium-gray) !important;
+        }
+        
+        .cta-section p small {
+            color: var(--medium-gray) !important;
+            font-weight: 600;
+        }
+        
         .kit-form {
             margin: 32px 0;
         }
@@ -223,33 +234,26 @@
             border-color: transparent !important;
         }
         
-        /* NUCLEAR OPTION - HIDE ALL SMALL ELEMENTS AFTER SUBMIT BUTTONS */
-        .kit-form button[type="submit"] ~ *,
-        .kit-form [data-element="submit"] ~ *,
-        .formkit-form button[type="submit"] ~ *,
-        .formkit-form [data-element="submit"] ~ *,
-        .kit-form button[type="submit"] + *,
-        .kit-form [data-element="submit"] + *,
-        .formkit-form button[type="submit"] + *,
-        .formkit-form [data-element="submit"] + *,
-        /* Target any divs/spans that appear after forms */
-        .kit-form > div:last-child,
-        .formkit-form > div:last-child,
-        .kit-form > span:last-child,
-        .formkit-form > span:last-child,
-        /* Target small elements with emojis */
-        *:contains("🚀"),
-        *:contains("💰"),
-        /* Target any small elements in kit-form area */
-        .kit-form div[style*="font-size"],
-        .kit-form span[style*="font-size"],
+        /* NUCLEAR OPTION - HIDE CONVERTKIT ELEMENTS (NOT OUR MARKETING TEXT) */
+        .kit-form button[type="submit"] ~ div:not(.cta-section p):not(.cta-section small),
+        .kit-form [data-element="submit"] ~ div:not(.cta-section p):not(.cta-section small),
+        .formkit-form button[type="submit"] ~ div:not(.cta-section p):not(.cta-section small),
+        .formkit-form [data-element="submit"] ~ div:not(.cta-section p):not(.cta-section small),
+        /* Target any small ConvertKit elements in kit-form area */
+        .kit-form div[style*="font-size"]:not(.cta-section *),
+        .kit-form span[style*="font-size"]:not(.cta-section *),
         .formkit-form div[style*="font-size"],
         .formkit-form span[style*="font-size"],
         /* Target positioned elements (ConvertKit often uses absolute positioning) */
-        .kit-form div[style*="position"],
-        .kit-form span[style*="position"],
+        .kit-form div[style*="position"]:not(.cta-section *),
+        .kit-form span[style*="position"]:not(.cta-section *),
         .formkit-form div[style*="position"],
-        .formkit-form span[style*="position"] {
+        .formkit-form span[style*="position"],
+        /* Target ConvertKit specific elements */
+        .formkit-powered-by,
+        .formkit-guarantee,
+        [data-element="guarantee"],
+        a[href*="convertkit.com"]:not([data-element="submit"]) {
             display: none !important;
             visibility: hidden !important;
             opacity: 0 !important;
@@ -861,20 +865,21 @@
             allElements.forEach(element => {
                 const text = element.textContent || element.innerText || '';
                 
-                // Skip our own content (longer marketing text)
+                // Skip our own content - be more specific about what to preserve
                 if (element.closest('.cta-section p') || 
+                    element.closest('.cta-section small') ||
                     text.includes('Launching in 4 weeks') ||
                     text.includes('Early users get 50% off forever') ||
-                    text.length > 100) {
+                    text.includes('Early users get lifetime 50% discount') ||
+                    text.includes('No spam, just launch updates') ||
+                    text.length > 80) {
                     return;
                 }
                 
-                // just me Target ConvertKit branding and short emoji text
+                // Target ConvertKit branding only (NOT our marketing emojis)
                 if (text.toLowerCase().includes('convertkit') || 
                     text.toLowerCase().includes('powered by') ||
                     text.toLowerCase().includes('verification') ||
-                    text.includes('🚀') ||
-                    text.includes('💰') ||
                     (element.href && element.href.includes('convertkit.com'))) {
                     element.style.cssText = 'display: none !important; visibility: hidden !important; opacity: 0 !important; height: 0 !important; width: 0 !important; position: absolute !important; left: -9999px !important; top: -9999px !important; z-index: -1 !important;';
                     element.remove();
